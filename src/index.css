@@ -1,0 +1,140 @@
+/* GLOBALS */
+* {
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --NavyBlue: #005083;
+  --DarkBlue: #033e63;
+  --Gray: #e9e9e9;
+  --White: #ffffff;
+  --DarkGray: #464646;
+}
+body {
+  background-color: var(--White);
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+}
+.container {
+  min-height: 75vh;
+}
+.wrapper {
+  margin: 3rem auto 3rem;
+  padding: 0 30px;
+  max-width: 1020px;
+}
+
+/* HEADER */
+.header-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: var(--NavyBlue);
+  color: #fff;
+}
+.header-column {
+  padding: 1rem 2rem;
+  display: flex;
+  align-content: center;
+}
+.header-column:nth-last-child(1) {
+  justify-content: center;
+}
+.header-logo {
+  margin: 0;
+  max-width: 250px;
+}
+.btn-menu {
+  visibility: hidden;
+}
+
+/* NAVBAR */
+.nav-menu {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+.nav-menu .element {
+  display: inline;
+  margin: 0 0.8rem;
+  padding: 0;
+}
+
+/* MENU */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 2rem;
+  row-gap: 2rem;
+}
+
+/* DETAILS GRID */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
+}
+
+/* LAUNCHES */
+.launch-bg {
+  background-color: var(--DarkGray);
+  border: 1px solid transparent;
+}
+
+
+@media (max-width: 768px) {
+  /* GLOBALS */
+  .wrapper {
+    max-width: 100vw;
+    margin: 3rem 2rem;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .header-grid {
+    grid-template-columns: 1fr 0.3fr;
+    max-width: 100vw;
+    
+  }
+  .header-column {
+    padding: 1rem;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+  /* .header-column:nth-last-child(1) {
+    display: none;
+  } */
+  .header-logo {
+    max-height: 35px;
+    padding-top: 0.5rem;
+    margin: 0;
+  }
+
+  /* NAVBAR */
+  .btn-menu {
+    visibility: visible;
+    align-self: center;
+    justify-self: center;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+  }
+  .nav-menu {
+    display: none;
+  }
+
+  /* MENU */
+  .menu-grid {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+  }
+  
+  /* DETAILS GRID */
+  .details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+}

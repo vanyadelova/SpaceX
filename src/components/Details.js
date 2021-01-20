@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import Axios from 'axios';
+//import Axios from 'axios';
 
 //Props
 import WikiLogo from '../img/wikipedia-logo.png';
@@ -9,6 +9,30 @@ import Loader from './UI/Loader';
 import Rocket from './Rocket'
 import Dragon from './Dragon'
 import { Description } from './UI/DetailsComponents';
+import gql from 'graphql-tag';
+
+export const QUERY_LAUNCH_PROFILE = gql`
+  query LaunchProfile {
+    launch {
+      flight_number
+      mission_name
+      launch_year
+      launch_success
+      details
+      launch_site {
+        site_name
+      }
+      rocket {
+        rocket_id
+        rocket_name
+        rocket_type
+      }
+      links {
+        flickr_images
+      }
+    }
+  }
+`;
 
 const Details = (props) => {
     
@@ -17,25 +41,25 @@ const Details = (props) => {
     const [proceso, setProceso] = useState(true);
 
 
-    useEffect(() => {
-        const ConsultarAPI = async () => {
+   // useEffect(() => {
+       // const ConsultarAPI = async () => {
             //Extracting "match" of props
-            const { match } = props;
+           // const { match } = props;
 
-            const URL = `https://api.spacexdata.com/v4/${match.params.project}/${match.params.id}`;
-            const response = await Axios.get(URL);
-            setResult(response.data);
+           // const URL = `https://api.spacexdata.com/v4/${match.params.project}/${match.params.id}`;
+            //const response = await Axios.get(URL);
+            //setResult(response.data);
 
-            setProceso(false);
+           // setProceso(false);
 
-        }
+        //}
 
-        if(proceso) {
-            ConsultarAPI();
-        }
+        //if(proceso) {
+       //     ConsultarAPI();
+       // }
 
         //eslint-disable-next-line
-    }, [proceso]);
+   // }, [proceso]);
 
     const evaluateResult = (data) => {
         if (result) {

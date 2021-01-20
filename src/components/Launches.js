@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import moment from 'moment';
+import gql from 'graphql-tag'
+
+import { Query } from 'react-apollo'
 
 //Styled components
 import { LaunchPageDetails, UpcomingLaunches } from './UI/LaunchComponents';
@@ -9,30 +12,31 @@ import { LaunchPageDetails, UpcomingLaunches } from './UI/LaunchComponents';
 import nopatch from '../img/nopatch.png';
 import nopatch_lg from '../img/nopatch_lg.png';
 
-const Launches = () => {
 
+const QUERY_LAUNCH_LIST = gql`
+  query LaunchList {
+    launches {
+    upcoming
+  }
+  launchNext {
+    upcoming
+    launch_date_local
+  }
+  }
+`;
+
+const Launches = () => {
     const [nextLaunch, setNextLaunch] = useState({});
     const [upcomingLaunches, setUpcomingLaunches] = useState([]);
 
-    useEffect(() => {
+    
 
-        const ConsultarAPI = async () => {
-            const URL_NEXTLAUNCH = 'https://api.spacexdata.com/v4/launches/next';
-            const URL_UPCOMINGLAUNCH = 'https://api.spacexdata.com/v4/launches/upcoming';
-
-            const [next, upcoming] = await Promise.all([
-                axios.get(URL_NEXTLAUNCH),
-                axios.get(URL_UPCOMINGLAUNCH)
-            ]);
-
-            setNextLaunch(next.data);
-            setUpcomingLaunches(upcoming.data)
-        }
-
-        ConsultarAPI();
+    
+            //const URL_NEXTLAUNCH = 'https://api.spacexdata.com/v4/launches/next';
+            //const URL_UPCOMINGLAUNCH = 'https://api.spacexdata.com/v4/launches/upcoming';
 
         //eslint-disable-next-line
-    },[]);
+    
 
     const CheckPatch = () => {
         try {
@@ -51,6 +55,8 @@ const Launches = () => {
                     <LaunchPageDetails>
                         <div className="launch-grid-column">
                             <h1>Next launch</h1>
+                          
+                           
                             <h3>{nextLaunch.name}</h3>
                             <div className="img-container">
                                 <img className="mission-patch" src={`${(CheckPatch()) ? nextLaunch.links.patch.large : nopatch_lg}`} alt="patch of next mission"/>
@@ -88,13 +94,20 @@ const Launches = () => {
                                     <p>{moment(Launch.date_local).format("DD / MM / YYYY")}</p>
                                     <p>{moment(Launch.date_local).format("hh:mm:ss A")}</p>
                                 </div>
+                                
                             </div>
+                            
                         ))
                     }
                 </UpcomingLaunches>
+               
             </div>
+            
         </Fragment>
+        
      );
 }
+
+
  
 export default Launches;

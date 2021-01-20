@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 //import Axios from 'axios';
-
+import { gql,useQuery } from "@apollo/client";
 //Props
 import WikiLogo from '../img/wikipedia-logo.png';
 
@@ -9,7 +9,7 @@ import Loader from './UI/Loader';
 import Rocket from './Rocket'
 import Dragon from './Dragon'
 import { Description } from './UI/DetailsComponents';
-import gql from 'graphql-tag';
+
 
 export const QUERY_LAUNCH_PROFILE = gql`
   query LaunchProfile {
@@ -35,10 +35,11 @@ export const QUERY_LAUNCH_PROFILE = gql`
 `;
 
 const Details = (props) => {
-    
+
     //State
-    const [result, setResult] = useState({});
-    const [proceso, setProceso] = useState(true);
+    //const [result, setResult] = useState({});
+    //const [proceso, setProceso] = useState(true);
+    const { loading, data } = useQuery(QUERY_LAUNCH_PROFILE, {  fetchPolicy: "cache-first" });
 
 
    // useEffect(() => {
@@ -62,10 +63,10 @@ const Details = (props) => {
    // }, [proceso]);
 
     const evaluateResult = (data) => {
-        if (result) {
-            if(result.type === "capsule") {
+        if (data) {
+            if(data.type === "capsule") {
                return  <Dragon data={data} />;
-            } else if (result.type === "rocket") {
+            } else if (data.type === "rocket") {
                 return  <Rocket data={data} />;
             } else {
                 return null;
@@ -73,31 +74,32 @@ const Details = (props) => {
         }
     }
 
-    
+
     return (
         <Fragment>
             {
-                !result 
-                ? 
-                    <Loader /> 
+                loading
+                ?
+                    <Loader/>
                 :
                     <div className="wrapper">
                         <div className="details-grid">
                             <Description>
                                 <div className="image-project">
-                                    <img src={result.flickr_images} alt={result.name}/>
+                                    <img src={data.LaunchProfile.flickr_images} alt={data.LaunchProfile.name}/>
                                     <div className="wikipedia">
-                                        <a href={result.wikipedia}><img src={WikiLogo} alt="Wikipedia"/></a>
+                                        <a href={data.LaunchProfile.wikipedia}><img src={WikiLogo} alt="Wikipedia"/></a>
                                     </div>
                                 </div>
-                                <p>{result.description}</p>
+                                <p>{data.LaunchProfile.description}</p>
                             </Description>
-                            {evaluateResult(result)}
+                            {evaluateResult(data.LaunchProfile)}
                         </div>
                     </div>
+
             }
         </Fragment>
     );
 }
- 
+
 export default Details;

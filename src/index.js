@@ -3,19 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import ApolloClient from 'apollo-boost';
-import {ApolloProvider} from 'react-apollo';
-import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
-
-
+import { ApolloProvider, ApolloClient } from "@apollo/client";
 const client = new ApolloClient({ uri: 'https://api.spacex.land/graphql/' });
 
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <ApolloHooksProvider client={client}>
+<ApolloProvider client={client}>
       <App />
-    </ApolloHooksProvider>
   </ApolloProvider>,
   document.getElementById('root'),
 );

@@ -1,9 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 //import axios from 'axios';
 import moment from 'moment';
-import gql from 'graphql-tag'
+import { gql,useQuery,useLazyQuery } from "@apollo/client";
 
-import { Query } from 'react-apollo'
 
 //Styled components
 import { LaunchPageDetails, UpcomingLaunches } from './UI/LaunchComponents';
@@ -28,35 +27,35 @@ const QUERY_LAUNCH_LIST = gql`
 const Launches = () => {
     const [nextLaunch, setNextLaunch] = useState({});
     const [upcomingLaunches, setUpcomingLaunches] = useState([]);
+    const { loading, data } = useQuery(QUERY_LAUNCH_LIST, {  fetchPolicy: "network-only" });
 
-    
 
-    
+
+
             //const URL_NEXTLAUNCH = 'https://api.spacexdata.com/v4/launches/next';
             //const URL_UPCOMINGLAUNCH = 'https://api.spacexdata.com/v4/launches/upcoming';
 
-        //eslint-disable-next-line
-    
+
 
     const CheckPatch = () => {
         try {
             if(nextLaunch.links.patch.large) return true;
         } catch {
             return false;
-        }        
+        }
     }
 
     const date = nextLaunch.date_local;
 
-    return ( 
+    return (
         <Fragment>
             <div className="launch-bg">
                 <div className="wrapper">
                     <LaunchPageDetails>
                         <div className="launch-grid-column">
                             <h1>Next launch</h1>
-                          
-                           
+
+
                             <h3>{nextLaunch.name}</h3>
                             <div className="img-container">
                                 <img className="mission-patch" src={`${(CheckPatch()) ? nextLaunch.links.patch.large : nopatch_lg}`} alt="patch of next mission"/>
@@ -94,20 +93,20 @@ const Launches = () => {
                                     <p>{moment(Launch.date_local).format("DD / MM / YYYY")}</p>
                                     <p>{moment(Launch.date_local).format("hh:mm:ss A")}</p>
                                 </div>
-                                
+
                             </div>
-                            
+
                         ))
                     }
                 </UpcomingLaunches>
-               
+
             </div>
-            
+
         </Fragment>
-        
+
      );
 }
 
 
- 
+
 export default Launches;
